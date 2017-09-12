@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Injectable } from '@angular/core';
 import { Http }       from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { HttpService } from './http.service';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +14,26 @@ export class AppComponent{
     private lng: number = 7.809007;
     private dataUrls = ['F01705150050.json','F01705150090.json'];
     private dataUrl = 'F01705150050.json';
-    testResponse: any;
-    constructor(private Http: HttpService) {
-     
-    }
-    ngOnInit() {
-        getEventsWithObservable(): Observable<Event[]> {
-            return this.http.get(this.url)
-                .map(this.extractData)
-                .catch(this.handleErrorObservable);
-        }
-    }
-       
+    geoEvent: any;
+    results: string[];
+    constructor(private http: Http) {}
+    ngOnInit(): void {
+        // Make the HTTP request:
+        this.http.get(this.dataUrl).subscribe(data => {
+          // Read the result field from the JSON response.
+          this.results = data['results'];
+        });
+      }
+    /*constructor(private _httpService: HttpService) {
+        this._httpService.getJSON(this.dataUrl)
+        .subscribe(
+        (res) => {
+            this.geoEvent = res;
+        },
+        (error) => console.log("error : " + error),
+        () => console.log('Error in GetApplication in Login : ' + Error)
+    );
+    }*/
 }
 
 
