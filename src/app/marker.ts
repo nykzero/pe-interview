@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 
 export class Marker {
-    constructor(private http: HttpClient,
+    constructor( 
         public common_place_name: string,
         public latitude:number,
         public longitude:number, 
