@@ -26,19 +26,33 @@ export class AppComponent{
     ngOnInit(): void {
         for(let dataUrl of this.dataUrls){
             this.http.get(dataUrl).subscribe(data => {
-                var marker = new Marker();
-                marker.common_place_name=data["address"]["common_place_name"];
-                marker.address_line1=data["address"]["address_line1"];
-                marker.latitude=data["address"]["latitude"];
-                marker.longitude=data["address"]["longitude"];
-                marker.response_zone=data["address"]["longitude"];
-                marker.comments=data["description"]["comments"];
-                marker.event_opened=new Date(data["description"]["event_opened"]);
-                marker.event_closed=new Date(data["description"]["event_closed"]);
-                marker.getWeatherData();
-                marker.getParcelData();
+                var marker = new Marker(
+                    data["address"]["common_place_name"],
+                    data["address"]["latitude"],
+                    data["address"]["longitude"],
+                    data["address"]["address_line1"],
+                    data["address"]["response_zone"],
+                    data["description"]["comments"],
+                    new Date(data["description"]["event_opened"]),
+                    new Date(data["description"]["event_closed"])
+                );
+                this.getWeatherData(marker);
+                this.getParcelData(marker);
             });
         }
     }
+    getParcelData(marker): void
+    {
+        this.http.get('http://gis.richmondgov.com/ArcGIS/rest/services/WebMercator/Parcels/MapServer/2/query?&geometry='+marker.latitude+','+marker.longitude+'&geometryType=esriGeometryPoint&f=pjson').subscribe(data => {
+            marker.parcelData = data;
+        });
+    };
+    getWeatherData(marker): void
+    {
+        var date = marker.event_opened.getFullYear()+"-"+marker.event_opened.getMonth()+"-"marker.event_opened.getDay();
+        this.http.get("http://api.apixu.com/v1/current.json?q=Richmond&key=5787a43fa8d4423a886203850170909&date="+date).subscribe(data => {
+            marker.weatherData = data;
+        });
+    };
 }
 

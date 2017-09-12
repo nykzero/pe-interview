@@ -3,6 +3,21 @@
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 <agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"><agm-info-window>test</agm-info-window></agm-marker>
+  <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude">
+  <agm-info-window>
+  <h3>{{marker.common_place_name}}</h3>
+  <ul>
+  	<li><strong>Comments</strong>{{marker.comments}}</li>
+  	<li><strong>Comments</strong>{{marker.address_line1}}</li>
+  	<li><strong>Comments</strong>{{marker.latitude}}</li>
+  	<li><strong>Comments</strong>{{marker.longitude}}</li>
+	<li><strong>Comments</strong>{{marker.response_zone}}</li>
+	<li><strong>Comments</strong>{{marker.event_opened}}</li>
+  	<li><strong>Comments</strong>{{marker.event_closed}}</li>
+  	<li><strong>Comments</strong>{{marker.parcelData}}</li>
+  	<li><strong>Comments</strong>{{marker.weatherData}}</li>
+  </ul>
+	</agm-info-window>
+</agm-marker>
+
 </agm-map>
-{{geoEvent}}
