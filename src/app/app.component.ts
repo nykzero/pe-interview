@@ -22,7 +22,7 @@ export class AppComponent{
     private dataUrl = 'assets/F01705150050.json';
     markers: Marker[] = [];
     results: string[];
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {  }
     
     ngOnInit(): void {
                 
@@ -49,24 +49,25 @@ export class AppComponent{
     getParcelData(marker): void
     {
         var headers = new HttpHeaders();
-        headers.append('Access-Control-Allow-Headers', 'Content-Type');
-        headers.append('Access-Control-Allow-Methods', 'GET');
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Content-Type','application/json');
-        this.http.get('http://gis.richmondgov.com/ArcGIS/rest/services/WebMercator/Parcels/MapServer/2/query?&geometry='+marker.latitude+','+marker.longitude+'&geometryType=esriGeometryPoint&f=pjson',{headers:headers}).subscribe(data => {
+            /*.append('Access-Control-Allow-Headers', 'Content-Type')
+            .append('Access-Control-Allow-Methods', 'GET')
+            .append('Access-Control-Allow-Origin', '*')
+            .append('Content-Type','application/json');*/
+        this.http.get('http://gis.richmondgov.com/ArcGIS/rest/services/WebMercator/Parcels/MapServer/2/query?&geometry='+marker.latitude+','+marker.longitude+'&geometryType=esriGeometryPoint&f=json',{headers}).subscribe(data => {
             marker.parcelData = data;
+            console.log(data);
         });
     };
     getWeatherData(marker): void
     {
         var headers = new HttpHeaders();
-        headers.append('Access-Control-Allow-Headers', 'Content-Type');
-        headers.append('Access-Control-Allow-Methods', 'GET');
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Content-Type','application/json');
-        this.http.get("http://api.apixu.com/v1/current.json?q=Richmond&key=5787a43fa8d4423a886203850170909&date="+marker.event_opened.getFullYear()+"-"+marker.event_opened.getMonth()+"-"+marker.event_opened.getDay(),{headers:headers}).subscribe(data => {
+            /*.append('Access-Control-Allow-Headers', 'Content-Type')
+            .append('Access-Control-Allow-Methods', 'GET')
+            .append('Access-Control-Allow-Origin', '*')
+            .append('Content-Type','application/json');*/
+        this.http.get("http://api.apixu.com/v1/current.json?q=Richmond&key=5787a43fa8d4423a886203850170909&date="+marker.event_opened.getFullYear()+"-"+marker.event_opened.getMonth()+"-"+marker.event_opened.getDay(),{headers}).subscribe(data => {
             marker.weatherData = data;
-            console.log(data);
+            
         });
     };
     

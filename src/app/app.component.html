@@ -14,9 +14,9 @@
 	<li><strong>response_zone:</strong>{{marker.response_zone}}</li>
 	<li><strong>event_opened:</strong>{{marker.event_opened}}</li>
   	<li><strong>event_closed:</strong>{{marker.event_closed}}</li>
-  	<li><strong>parcelData</strong>{{marker.parcelData}}</li>
-  	<li><strong>Weather Condition:</strong>{{marker.weatherData["current"]["condition"]["text"]}}</li>
-  	<li><strong>Temperature(F):</strong>{{marker.weatherData["current"]["temp_f"]}}</li>
+  	<li *ngIf="marker.parcelData"><strong>parcelData count:</strong>{{marker.parcelData["features"].length}}</li>
+  	<li *ngIf="marker.weatherData"><strong>Weather Condition:</strong>{{marker.weatherData["current"]["condition"]["text"]}}</li>
+  	<li *ngIf="marker.weatherData"><strong>Temperature(F):</strong>{{marker.weatherData["current"]["temp_f"]}}</li>
   </ul>
 	</agm-info-window>
 </agm-marker>
